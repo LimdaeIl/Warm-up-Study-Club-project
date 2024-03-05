@@ -1,10 +1,13 @@
 package inflearn.com.corporation.member.entity;
 
+import inflearn.com.corporation.commute.entity.Commute;
 import inflearn.com.corporation.member.entity.type.Role;
 import inflearn.com.corporation.team.entity.Team;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -21,7 +24,6 @@ public class Member {
     @JoinColumn(name = "team_id")
     private Team team;
 
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -31,6 +33,9 @@ public class Member {
 
     @Column(nullable = false)
     private LocalDate workStartDate;
+
+    @OneToMany(mappedBy = "member")
+    List<Commute> commutes = new ArrayList<>();
 
     protected Member() {
     }
@@ -65,6 +70,10 @@ public class Member {
 
     public LocalDate getWorkStartDate() {
         return workStartDate;
+    }
+
+    public List<Commute> getCommutes() {
+        return commutes;
     }
 
     public void changeTeam(Team team) {
