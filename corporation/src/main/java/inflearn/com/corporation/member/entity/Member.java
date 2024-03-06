@@ -1,8 +1,9 @@
 package inflearn.com.corporation.member.entity;
 
 import inflearn.com.corporation.commute.entity.Commute;
-import inflearn.com.corporation.member.entity.type.Role;
+import inflearn.com.corporation.member.entity.type.MemberRole;
 import inflearn.com.corporation.team.entity.Team;
+import inflearn.com.corporation.vacation.entity.Vacation;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private MemberRole role;
 
     @Column(nullable = false)
     private LocalDate birthday;
@@ -37,10 +38,14 @@ public class Member {
     @OneToMany(mappedBy = "member")
     List<Commute> commutes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    List<Vacation> vacations = new ArrayList<>();
+
+
     protected Member() {
     }
 
-    public Member(String name, Team team, Role role, LocalDate birthday, LocalDate workStartDate) {
+    public Member(String name, Team team, MemberRole role, LocalDate birthday, LocalDate workStartDate) {
         this.name = name;
         changeTeam(team);
         this.role = role;
@@ -60,7 +65,7 @@ public class Member {
         return team;
     }
 
-    public Role getRole() {
+    public MemberRole getRole() {
         return role;
     }
 
@@ -76,6 +81,10 @@ public class Member {
         return commutes;
     }
 
+    public List<Vacation> getVacations() {
+        return vacations;
+    }
+
     public void changeTeam(Team team) {
         if (this.team != null) { // 이전 팀이 설정되어 있으면
             this.team.getMembers().remove(this); // 이전 팀에서 해당 멤버 제거
@@ -84,5 +93,10 @@ public class Member {
         if (team != null) { // 새로운 팀이 null 이 아니라면
             team.getMembers().add(this); // 새로운 팀에 해당 멤버 추가
         }
+    }
+
+    public boolean hasUsedVacationOnDate(LocalDate date) {
+        return vacations.stream()
+                .anyMatch(vacation -> vacation.getDate().equals(date));
     }
 }

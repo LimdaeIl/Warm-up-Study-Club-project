@@ -1,5 +1,5 @@
 package inflearn.com.corporation.member.entity.type;
 
-public enum Role {
+public enum MemberRole {
     MANAGER, MEMBER
 }

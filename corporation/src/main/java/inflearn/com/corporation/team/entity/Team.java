@@ -1,7 +1,8 @@
 package inflearn.com.corporation.team.entity;
 
 import inflearn.com.corporation.member.entity.Member;
-import inflearn.com.corporation.member.entity.type.Role;
+import inflearn.com.corporation.member.entity.type.MemberRole;
+import inflearn.com.corporation.vacation.entity.VacationRegistrationRule;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ public class Team {
     List<Member> members = new ArrayList<>();
 
     private Long memberCount;
+
+    @OneToOne(mappedBy = "team", fetch = FetchType.LAZY)
+    private VacationRegistrationRule vacationRegistrationRule;
 
     protected Team() {}
 
@@ -52,8 +56,12 @@ public class Team {
         return memberCount;
     }
 
+    public VacationRegistrationRule getVacationRegistrationRule() {
+        return vacationRegistrationRule;
+    }
+
     public boolean hasManager() {
-        return members.stream().anyMatch(member -> member.getRole() == Role.MANAGER);
+        return members.stream().anyMatch(member -> member.getRole() == MemberRole.MANAGER);
     }
 
     public void setManagerName(String manager) {
@@ -63,6 +71,14 @@ public class Team {
     public void addMember(Member member) {
         members.add(member);
         memberCount++;
+    }
+
+    public void updateRegistrationRule(int date) {
+        if (this.vacationRegistrationRule != null) {
+            vacationRegistrationRule.changeRegistrationRule(date);
+        } else {
+            vacationRegistrationRule = new VacationRegistrationRule(this, date);
+        }
     }
 
 }
