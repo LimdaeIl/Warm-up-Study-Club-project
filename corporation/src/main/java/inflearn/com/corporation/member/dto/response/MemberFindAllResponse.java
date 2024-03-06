@@ -1,6 +1,6 @@
 package inflearn.com.corporation.member.dto.response;
 
-import inflearn.com.corporation.member.entity.type.Role;
+import inflearn.com.corporation.member.entity.type.MemberRole;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,7 @@ public class MemberFindAllResponse {
 
     private String teamName;
 
-    private Role role;
+    private MemberRole role;
 
     private LocalDate birthday;
 
@@ -17,7 +17,7 @@ public class MemberFindAllResponse {
 
     protected MemberFindAllResponse() {}
 
-    public MemberFindAllResponse(String name, String teamName, Role role, LocalDate birthday, LocalDate workStartDate) {
+    public MemberFindAllResponse(String name, String teamName, MemberRole role, LocalDate birthday, LocalDate workStartDate) {
         this.name = name;
         this.teamName = teamName;
         this.role = role;
@@ -33,7 +33,7 @@ public class MemberFindAllResponse {
         return teamName;
     }
 
-    public Role getRole() {
+    public MemberRole getRole() {
         return role;
     }
 
