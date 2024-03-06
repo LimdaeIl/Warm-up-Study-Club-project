@@ -3,7 +3,7 @@ package inflearn.com.corporation.member.service;
 import inflearn.com.corporation.member.dto.request.MemberCreateRequest;
 import inflearn.com.corporation.member.dto.response.MemberFindAllResponse;
 import inflearn.com.corporation.member.entity.Member;
-import inflearn.com.corporation.member.entity.type.Role;
+import inflearn.com.corporation.member.entity.type.MemberRole;
 import inflearn.com.corporation.member.repository.MemberRepository;
 import inflearn.com.corporation.team.entity.Team;
 import inflearn.com.corporation.team.repository.TeamRepository;
@@ -34,7 +34,7 @@ public class MemberService {
         }
 
         // 만약 회원의 역할이 MANAGER 이고, 팀에 이미 MANAGER 가 존재한다면 예외 발생
-        if (request.getRole() == Role.MANAGER && team != null && team.hasManager()) {
+        if (request.getRole() == MemberRole.MANAGER && team != null && team.hasManager()) {
             throw new IllegalArgumentException("팀에 이미 매니저가 존재합니다.");
         }
 
@@ -48,7 +48,7 @@ public class MemberService {
         memberRepository.save(member);
 
         // 만약 회원의 역할이 MANAGER 라면 팀의 managerName 필드를 업데이트
-        if (member.getRole() == Role.MANAGER && team != null) {
+        if (member.getRole() == MemberRole.MANAGER && team != null) {
             team.setManagerName(member.getName());
             teamRepository.save(team);
         }
