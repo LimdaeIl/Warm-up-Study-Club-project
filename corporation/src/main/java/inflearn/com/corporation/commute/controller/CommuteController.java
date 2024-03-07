@@ -1,6 +1,7 @@
 package inflearn.com.corporation.commute.controller;
 
 import inflearn.com.corporation.commute.dto.request.CommuteByAllDayOfMonthRequest;
+import inflearn.com.corporation.commute.dto.response.CommuteOvertimeResponse;
 import inflearn.com.corporation.commute.dto.response.CommuteResponse;
 import inflearn.com.corporation.commute.service.CommuteService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,5 +36,10 @@ public class CommuteController {
             @RequestParam String date) {
         CommuteByAllDayOfMonthRequest request = new CommuteByAllDayOfMonthRequest(id, date);
         return commuteService.memberCommuteByAllDayOfMonth(request);
+    }
+
+    @GetMapping("/api/v1/overtime")
+    public List<CommuteOvertimeResponse> memberCommuteOvertimeList(@RequestParam String date) {
+        return commuteService.memberCommuteOvertimeList(date);
     }
 }
